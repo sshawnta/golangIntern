@@ -1,31 +1,39 @@
 package frame
 
-import ""
+import (
+	"github.com/sshawnta/golangIntern/pkg/computer"
+	"github.com/sshawnta/golangIntern/pkg/phone"
+)
 
+
+//facade functional
 type Facade interface {
 	Call()
 	SendMessage()
 	MessageComp()
 }
 
+//make a phone call
 func CallPhone() {
-	phone := NewPhone("12313", "1234")
+	phone := phone.NewPhone("12313", "1234")
 	if phone.Unlock() == true {
 		phone.Call()
 		phone.Lock()
 	}
 }
 
-func MessagePhone(){
-	phone := NewPhone("12341", "1233")
+//send message from phone
+func MessagePhone() {
+	phone := phone.NewPhone("12341", "1233")
 	if phone.Unlock() == true {
 		phone.SendMessage("text")
 		phone.Lock()
 	}
+}
 
-	func MessageComp(){
-		comp := Newcomputer("1234567","user","pass")
-		comp.SendTeleg("text")
-	}
+//send message from computer
+func MessageComp(){
+	comp := computer.NewComputer("1234567","user","pass")
+	comp.SendTeleg("text")
 }
 

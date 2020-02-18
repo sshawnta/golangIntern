@@ -1,8 +1,9 @@
 package main
 
-import "../../pkg"
+import "github.com/sshawnta/golangIntern/pkg/frame"
 
 func main() {
-	pkg.CallPhone()
-	pkg.MessagePhone()
+	frame.CallPhone()
+	frame.MessagePhone()
+	frame.MessageComp()
 }
