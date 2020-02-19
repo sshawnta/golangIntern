@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-	ph := phone.NewPhone(model.NumberToCallOrMassage, model.PhonePassword)
-	comp := computer.NewComputer(model.NumberToCallOrMassage, model.UserComp, model.PassComp)
-	facade := frame.NewFacade(ph,comp)
-	facade.CallPhone()
-	facade.MessagePhone()
-	facade.MessageComp()
+	newPhone := phone.NewPhone(model.NumberToCallOrMassage, model.PhonePassword)
+	newComputer := computer.NewComputer(model.NumberToCallOrMassage, model.UserComp, model.PassComp)
+	newFacade := frame.NewFacade(newPhone,newComputer)
+	newFacade.CallPhone()
+	newFacade.MessagePhone()
+	newFacade.MessageComp()
 }

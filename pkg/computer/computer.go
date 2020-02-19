@@ -17,15 +17,7 @@ type computer struct {
 	pass    string
 }
 
-func NewComputer(num string, name string, pass string) *computer {
-	return &computer{
-		isPower: false,
-		number:  num,
-		user:    name,
-		pass:    pass,
-	}
-}
-
+//method sending a massage, must to pass a message text
 func (c *computer) SendMail(text string) {
 	if c.isPower == false {
 		c.powerOn()
@@ -42,7 +34,7 @@ func (c *computer) login() bool {
 		fmt.Println("Login")
 		return true
 	} else {
-		fmt.Println("Incorrect login or password")
+		fmt.Println(model.CompIncorrectLogOrPass)
 	}
 	return false
 }
@@ -66,6 +58,15 @@ func (c *computer) powerOff() {
 }
 
 func (c *computer) sending(text string) {
-	//todo with text
-	fmt.Println("Messange send", c.number)
+	fmt.Println("Send Message", c.number)
+}
+
+//constructor of computer exemplar.
+func NewComputer(num string, name string, pass string) *computer {
+	return &computer{
+		isPower: false,
+		number:  num,
+		user:    name,
+		pass:    pass,
+	}
 }

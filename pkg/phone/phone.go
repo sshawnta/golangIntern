@@ -17,58 +17,66 @@ type phone struct {
 	pass string
 }
 
-func NewPhone(number1 string, upass string) *phone{
-	return &phone{
-		true,
-		number1,
-		upass,
+//method sending a massage, must to pass a message text
+func (p *phone)SendMessage(text string){
+	if p.checkNumber() == false{
+		return
+	}
+	if p.isLock{
+		p.unlock()
+	}
+	if !p.isLock{
+		p.sending(text)
+		p.lock()
 	}
 }
 
-func (s *phone)Unlock() bool{
-	if s.pass == model.CorrectPhonePassword{
-		s.isLock = false
+//method make phone call
+func (p *phone)Call(){
+	if p.checkNumber() == false{
+		return
+	}
+	if p.isLock{
+		p.unlock()
+	}
+	if !p.isLock {
+		fmt.Println("Calling number ", p.number, )
+		p.lock()
+	}
+}
+
+func (p *phone)unlock() bool{
+	if p.pass == model.CorrectPhonePassword{
+		p.isLock = false
 		fmt.Println("Phone unlock")
 		return true
 	}
-	fmt.Println("Incorrect password")
+	fmt.Println(model.PhoneIncorrectPass)
 	return false
 }
 
-func (s *phone)Lock(){
+func (p *phone)lock(){
 	fmt.Println("phone lock")
-	s.isLock = true
+	p.isLock = true
 }
 
-func (s *phone)Call(){
-	if s.checkNumber() > 0{
-		return
+func (p *phone)checkNumber() bool{
+	if len(p.number) > 11 || len(p.number) < 6{
+		fmt.Println(model.PhoneIncorrectNumb)
+		return false
 	}
-	if s.isLock{
-		s.Unlock()
-	}
-	fmt.Println("Calling number ", s.number,)
-	s.Lock()
+	return true
 }
 
-func (s *phone)SendMessage(text string){
-	if s.checkNumber() > 0{
-		return
-	}
-	s.Unlock()
-	s.sending(text)
-	s.Lock()
+func (p *phone)sending(text string){
+	fmt.Println("Send Message to number ",p.number)
 }
 
-func (s *phone)checkNumber() int{
-	if len(s.number) > 11 || len(s.number) < 6{
-		fmt.Println("Incorrect number")
-		return 1
+//fabric of phone exemplar
+func NewPhone(numb string, upass string) *phone{
+	return &phone{
+		true,
+		numb,
+		upass,
 	}
-	return 0
-}
-
-//метод отправки сообщения
-func (s *phone)sending(text string){
-	fmt.Println("Send Message to number ",s.number)
 }
