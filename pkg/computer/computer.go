@@ -2,12 +2,13 @@ package computer
 
 import (
 	"fmt"
+
 	"github.com/sshawnta/golangIntern/pkg/model"
 )
 
 //Active actions that can be performed on the computer
 type Computer interface {
-	SendMail(text string)
+	SendMail(text string) string
 }
 
 type computer struct {
@@ -18,7 +19,7 @@ type computer struct {
 }
 
 //method sending a massage, must to pass a message text
-func (c *computer) SendMail(text string) {
+func (c *computer) SendMail(text string) string {
 	if c.isPower == false {
 		c.powerOn()
 	}
@@ -27,6 +28,7 @@ func (c *computer) SendMail(text string) {
 		c.sending(text)
 	}
 	c.powerOff()
+	return model.SuccessComplete
 }
 
 func (c *computer) login() bool {
@@ -62,7 +64,7 @@ func (c *computer) sending(text string) {
 }
 
 //constructor of computer exemplar.
-func NewComputer(num string, name string, pass string) *computer {
+func NewComputer(num string, name string, pass string) Computer {
 	return &computer{
 		isPower: false,
 		number:  num,
