@@ -1,39 +1,39 @@
 package frame
 
-import (
-	"github.com/sshawnta/golangIntern/pkg/computer"
-	"github.com/sshawnta/golangIntern/pkg/phone"
-)
+import "github.com/sshawnta/golangIntern/pkg/model"
 
-
-//facade functional
-type Facade interface {
+type phone interface {
 	Call()
-	SendMessage()
-	MessageComp()
+	SendMessage(text string)
+}
+
+type computer interface {
+	SendMail(text string)
+}
+
+type facade struct {
+	phone *phone
+	computer *computer
 }
 
 //make a phone call
-func CallPhone() {
-	phone := phone.NewPhone("12313", "1234")
-	if phone.Unlock() == true {
-		phone.Call()
-		phone.Lock()
-	}
+func (f *facade)CallPhone() {
+		phone.Call(*f.phone)
 }
 
 //send message from phone
-func MessagePhone() {
-	phone := phone.NewPhone("12341", "1233")
-	if phone.Unlock() == true {
-		phone.SendMessage("text")
-		phone.Lock()
-	}
+func (f *facade)MessagePhone() {
+		phone.SendMessage(*f.phone, model.Message)
 }
 
 //send message from computer
-func MessageComp(){
-	comp := computer.NewComputer("1234567","user","pass")
-	comp.SendTeleg("text")
+func (f *facade)MessageComp(){
+	computer.SendMail(*f.computer,model.Message)
 }
 
+func NewFacade(phone phone, computer computer) *facade {
+	return &facade{
+		phone: &phone,
+		computer: &computer,
+	}
+}

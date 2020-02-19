@@ -2,24 +2,17 @@ package phone
 
 import (
 	"fmt"
+	"github.com/sshawnta/golangIntern/pkg/model"
 )
 
-type phonePrivate interface {
-	sending(text string)
-	checkNumber() int
-}
-
-//main phone functional
-type PhonePublic interface {
-	NewStatement(number1 string, upass string) *phone
-	Unlock() bool
-	Lock()
+//Active actions that can be performed on the phone
+type Phone interface {
 	Call()
 	SendMessage(text string)
 }
 
 type phone struct {
-	islock bool
+	isLock bool
 	number string
 	pass string
 }
@@ -33,8 +26,8 @@ func NewPhone(number1 string, upass string) *phone{
 }
 
 func (s *phone)Unlock() bool{
-	if s.pass == "1234"{
-		s.islock = false
+	if s.pass == model.CorrectPhonePassword{
+		s.isLock = false
 		fmt.Println("Phone unlock")
 		return true
 	}
@@ -44,17 +37,18 @@ func (s *phone)Unlock() bool{
 
 func (s *phone)Lock(){
 	fmt.Println("phone lock")
-	s.islock = true
+	s.isLock = true
 }
 
 func (s *phone)Call(){
 	if s.checkNumber() > 0{
 		return
 	}
-	if s.islock{
+	if s.isLock{
 		s.Unlock()
 	}
 	fmt.Println("Calling number ", s.number,)
+	s.Lock()
 }
 
 func (s *phone)SendMessage(text string){
@@ -76,6 +70,5 @@ func (s *phone)checkNumber() int{
 
 //метод отправки сообщения
 func (s *phone)sending(text string){
-	//TODO with text
 	fmt.Println("Send Message to number ",s.number)
 }

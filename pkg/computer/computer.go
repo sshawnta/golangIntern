@@ -1,18 +1,13 @@
 package computer
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/sshawnta/golangIntern/pkg/model"
+)
 
-type computerPrivate interface {
-	powerOn()
-	powerOff()
-	sending(text string)
-	browser()
-	login() bool
-}
-
-//functional
-type ComputerPublic interface {
-	SendTeleg(text string)
+//Active actions that can be performed on the computer
+type Computer interface {
+	SendMail(text string)
 }
 
 type computer struct {
@@ -31,7 +26,7 @@ func NewComputer(num string, name string, pass string) *computer {
 	}
 }
 
-func (c *computer) SendTeleg(text string) {
+func (c *computer) SendMail(text string) {
 	if c.isPower == false {
 		c.powerOn()
 	}
@@ -43,7 +38,7 @@ func (c *computer) SendTeleg(text string) {
 }
 
 func (c *computer) login() bool {
-	if c.user == "user" && c.pass == "pass" {
+	if c.user == model.CorrectCompUser && c.pass == model.CorrectCompPass {
 		fmt.Println("Login")
 		return true
 	} else {
