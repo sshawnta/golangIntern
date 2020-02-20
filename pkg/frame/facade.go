@@ -4,12 +4,12 @@ import (
 	`github.com/sshawnta/golangIntern/pkg/model`
 )
 
-type telephone interface {
+type phone interface {
 	Call() string
 	SendMessage(text string) string
 }
 
-type comp interface {
+type computer interface {
 	SendMail(text string) string
 }
 type Facade interface {
@@ -18,14 +18,13 @@ type Facade interface {
 	MessageComp() string
 }
 type facade struct {
-	phone    telephone
-	computer comp
+	phone    phone
+	computer computer
 }
 
 //Make a phone call
 func (f *facade) CallPhone() string {
-	return telephone.Call(f.phone)
-
+	return f.phone.Call()
 }
 
 //Send message from phone
@@ -40,7 +39,7 @@ func (f *facade) MessageComp() string {
 
 //Fabric of facade exemplar
 //You must fill in information about your computer and phone number, password, user name and message text
-func NewFacade(phone telephone, computer comp) Facade {
+func NewFacade(phone phone, computer computer) Facade {
 	return &facade{
 		phone:    phone,
 		computer: computer,

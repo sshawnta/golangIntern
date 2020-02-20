@@ -6,7 +6,8 @@ const (
 	UserComp              = "user"
 	PassComp              = "pass"
 	PhonePassword         = "1234"
-
+	PhoneLock             = true
+	PhoneUnlock           = false
 	//Correct Data
 	CorrectPhonePassword = "1234"
 	CorrectCompUser      = "user"

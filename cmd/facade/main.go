@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	newPhone := phone.NewPhone(model.NumberToCallOrMassage, model.PhonePassword)
+	newPhone := phone.NewPhone(model.PhoneLock, model.NumberToCallOrMassage, model.PhonePassword)
 	newComputer := computer.NewComputer(model.NumberToCallOrMassage, model.UserComp, model.PassComp)
 	newFacade := frame.NewFacade(newPhone, newComputer)
 	newFacade.CallPhone()

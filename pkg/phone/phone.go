@@ -2,7 +2,6 @@ package phone
 
 import (
 	"fmt"
-	`log`
 
 	"github.com/sshawnta/golangIntern/pkg/model"
 )
@@ -22,20 +21,18 @@ type phone struct {
 //method sending a massage, must to pass a message text
 func (p *phone) SendMessage(text string) string {
 	err := p.checkNumber()
-
 	if err != nil {
-		log.Fatal(err)
+		return model.FailComplete
 	}
 	if p.isLock {
-		p.unlock()
+		err = p.unlock()
 	}
-	if !p.isLock {
-		p.sending(text)
-		p.lock()
-		return model.SuccessComplete
-
+	if err != nil {
+		return model.FailComplete
 	}
-	return model.FailComplete
+	p.sending(text)
+	p.lock()
+	return model.SuccessComplete
 }
 
 //method make phone call
@@ -46,24 +43,26 @@ func (p *phone) Call() string {
 		return model.FailComplete
 	}
 	if p.isLock {
-		p.unlock()
+		err = p.unlock()
 	}
-	if !p.isLock {
-		fmt.Println("Calling number ", p.number, )
-		p.lock()
-		return model.SuccessComplete
+	if err != nil {
+		return model.FailComplete
 	}
-	return model.FailComplete
+	fmt.Println("Calling number ", p.number, )
+	p.lock()
+	return model.SuccessComplete
 }
 
-func (p *phone) unlock() bool {
+func (p *phone) unlock() error {
+	var err error
 	if p.pass == model.CorrectPhonePassword {
 		p.isLock = false
 		fmt.Println("Phone unlock")
-		return true
+		return nil
 	}
 	fmt.Println(model.PhoneIncorrectPass)
-	return false
+	err = fmt.Errorf(model.PhoneIncorrectPass)
+	return err
 }
 
 func (p *phone) lock() {
@@ -85,9 +84,9 @@ func (p *phone) sending(text string) {
 }
 
 //fabric of phone exemplar
-func NewPhone(numb string, upass string) Phone {
+func NewPhone(lock bool, numb string, upass string) Phone {
 	return &phone{
-		true,
+		lock,
 		numb,
 		upass,
 	}

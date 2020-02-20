@@ -23,26 +23,24 @@ func (c *computer) SendMail(text string) string {
 	if c.isPower == false {
 		c.powerOn()
 	}
-	browser()
-	if c.login() == true {
-		c.sending(text)
+	err := c.login()
+	if err != nil {
+		return model.FailComplete
 	}
+	c.sending(text)
 	c.powerOff()
 	return model.SuccessComplete
 }
 
-func (c *computer) login() bool {
+func (c *computer) login() error {
+	var err error
 	if c.user == model.CorrectCompUser && c.pass == model.CorrectCompPass {
 		fmt.Println("Login")
-		return true
-	} else {
-		fmt.Println(model.CompIncorrectLogOrPass)
+		return nil
 	}
-	return false
-}
-
-func browser() {
-	fmt.Println("Browser is open")
+	fmt.Println(model.CompIncorrectLogOrPass)
+	err = fmt.Errorf(model.PhoneIncorrectPass)
+	return err
 }
 
 func (c *computer) powerOn() {

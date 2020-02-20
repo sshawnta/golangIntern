@@ -3,9 +3,9 @@ package frame
 import (
 	`testing`
 
-	`github.com/sshawnta/golangIntern/pkg/computer`
+	computer2 `github.com/sshawnta/golangIntern/pkg/computer`
 	`github.com/sshawnta/golangIntern/pkg/model`
-	`github.com/sshawnta/golangIntern/pkg/phone`
+	phone2 `github.com/sshawnta/golangIntern/pkg/phone`
 	`github.com/stretchr/testify/assert`
 )
 
@@ -20,11 +20,11 @@ const (
 //Facade testing
 func TestAllUse(t *testing.T) {
 	t.Run("Test facade", func(t *testing.T) {
-		comparisonMock := new(phone.Mock)
+		comparisonMock := new(phone2.Mock)
 		comparisonMock.On(methodCallPhone).Return(string(Result)).Once()
 		comparisonMock.On(methodMessagePhone, model.Message).Return(string(Result)).Once()
 
-		computerMock := new(computer.Mock)
+		computerMock := new(computer2.Mock)
 		computerMock.On(methodMessageComp, model.Message).Return(string(Result)).Once()
 
 		myFacade := NewFacade(comparisonMock, computerMock)
