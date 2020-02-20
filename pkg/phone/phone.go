@@ -20,7 +20,7 @@ type phone struct {
 }
 
 //method sending a massage, must to pass a message text
-func (p *phone) SendMessage(text string) string{
+func (p *phone) SendMessage(text string) string {
 	err := p.checkNumber()
 
 	if err != nil {
@@ -39,7 +39,7 @@ func (p *phone) SendMessage(text string) string{
 }
 
 //method make phone call
-func (p *phone) Call() string{
+func (p *phone) Call() string {
 	err := p.checkNumber()
 	if err != nil {
 		fmt.Println(err)
@@ -71,7 +71,7 @@ func (p *phone) lock() {
 	p.isLock = true
 }
 
-func (p *phone) checkNumber() error{
+func (p *phone) checkNumber() error {
 	var err error
 	if len(p.number) > 11 || len(p.number) < 6 {
 		err = fmt.Errorf(model.PhoneIncorrectNumb)
