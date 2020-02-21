@@ -34,14 +34,6 @@ func (p *plane) Price() (float64, error) {
 	return 0, err
 }
 
-func (p *plane) makeDate() map[string]float64 {
-	return map[string]float64{
-		model.BoeingPlane: model.BoeingPrice,
-		model.AirPlane:    model.AirBusPrice,
-		model.IlPlane:     model.IlPrice,
-	}
-}
-
 //Get full info about plane model
 func (p *plane) FullInfo() string {
 	res := p.model
@@ -53,6 +45,14 @@ func (p *plane) FullInfo() string {
 func (p *plane) Accept(v Visitor) float64 {
 	res := v.VisitPlane(p)
 	return res
+}
+
+func (p *plane) makeDate() map[string]float64 {
+	return map[string]float64{
+		model.BoeingPlane: model.BoeingPrice,
+		model.AirPlane:    model.AirBusPrice,
+		model.IlPlane:     model.IlPrice,
+	}
 }
 
 //Constructor for Plane. Entry model of plane

@@ -34,14 +34,6 @@ func (c *car) Price() (int, error) {
 	return 0, err
 }
 
-func (c *car) makeDate() map[string]int {
-	return map[string]int{
-		model.OpelCar:  model.OpelPrice,
-		model.MazdaCar: model.MazdaPrice,
-		model.BMWCar:   model.BMWPrice,
-	}
-}
-
 //Get full info about car model
 func (c *car) FullInfo() string {
 	fmt.Println(c.model)
@@ -54,7 +46,15 @@ func (c *car) Accept(v Visitor) int {
 	return res
 }
 
-////Constructor for car. Entry model of car
+func (c *car) makeDate() map[string]int {
+	return map[string]int{
+		model.OpelCar:  model.OpelPrice,
+		model.MazdaCar: model.MazdaPrice,
+		model.BMWCar:   model.BMWPrice,
+	}
+}
+
+//Constructor for car. Entry model of car
 func NewCar(modelCar string) Car {
 	return &car{
 		model: modelCar,
