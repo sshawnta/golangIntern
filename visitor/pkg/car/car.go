@@ -3,7 +3,7 @@ package car
 import (
 	`fmt`
 
-	`github.com/sshawnta/visitor/pkg/model`
+	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 )
 
 //Implementation visitor for expansion functional
@@ -25,17 +25,21 @@ type car struct {
 
 //Return price of car exemplar
 func (c *car) Price() (int, error) {
-	carInfo := map[string]int{
-		model.OpelCar:  model.OpelPrice,
-		model.MazdaCar: model.MazdaPrice,
-		model.BMWCar:   model.BMWPrice,
-	}
+	carInfo := c.makeDate()
 	var err error
 	if res, ok := carInfo[c.model]; ok {
 		return res, nil
 	}
 	err = fmt.Errorf(model.NotFoundModel)
 	return 0, err
+}
+
+func (c *car) makeDate() map[string]int {
+	return map[string]int{
+		model.OpelCar:  model.OpelPrice,
+		model.MazdaCar: model.MazdaPrice,
+		model.BMWCar:   model.BMWPrice,
+	}
 }
 
 //Get full info about car model
@@ -50,6 +54,7 @@ func (c *car) Accept(v Visitor) int {
 	return res
 }
 
+////Constructor for car. Entry model of car
 func NewCar(modelCar string) Car {
 	return &car{
 		model: modelCar,

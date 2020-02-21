@@ -3,10 +3,10 @@ package plane
 import (
 	`fmt`
 
-	`github.com/sshawnta/visitor/pkg/model`
+	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 )
 
-////Implementation visitor for expansion functional
+//Implementation visitor for expansion functional
 type Visitor interface {
 	VisitPlane(p Plane) float64
 }
@@ -25,17 +25,21 @@ type plane struct {
 
 //Return car of plane exemplar
 func (p *plane) Price() (float64, error) {
-	planeInfo := map[string]float64{
-		model.BoeingPlane: model.BoeingPrice,
-		model.AirPlane:    model.AirBusPrice,
-		model.IlPlane:     model.IlPrice,
-	}
+	planeInfo := p.makeDate()
 	var err error
 	if res, ok := planeInfo[p.model]; ok {
 		return res, nil
 	}
 	err = fmt.Errorf(model.NotFoundModel)
 	return 0, err
+}
+
+func (p *plane) makeDate() map[string]float64 {
+	return map[string]float64{
+		model.BoeingPlane: model.BoeingPrice,
+		model.AirPlane:    model.AirBusPrice,
+		model.IlPlane:     model.IlPrice,
+	}
 }
 
 //Get full info about plane model
@@ -51,6 +55,7 @@ func (p *plane) Accept(v Visitor) float64 {
 	return res
 }
 
+//Constructor for Plane. Entry model of plane
 func NewPlane(modelPlane string) Plane {
 	return &plane{
 		model: modelPlane,

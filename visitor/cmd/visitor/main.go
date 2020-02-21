@@ -1,10 +1,10 @@
 package main
 
 import (
-	`github.com/sshawnta/visitor/pkg/car`
-	`github.com/sshawnta/visitor/pkg/frame`
-	`github.com/sshawnta/visitor/pkg/model`
-	`github.com/sshawnta/visitor/pkg/plane`
+	"github.com/sshawnta/golangIntern/visitor/pkg/car"
+	"github.com/sshawnta/golangIntern/visitor/pkg/frame"
+	"github.com/sshawnta/golangIntern/visitor/pkg/model"
+	"github.com/sshawnta/golangIntern/visitor/pkg/plane"
 )
 
 func main() {

@@ -4,7 +4,7 @@ import (
 	`fmt`
 	`testing`
 
-	`github.com/sshawnta/visitor/pkg/model`
+	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 	`github.com/stretchr/testify/assert`
 )
 

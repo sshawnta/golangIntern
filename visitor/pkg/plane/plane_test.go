@@ -4,7 +4,7 @@ import (
 	`fmt`
 	`testing`
 
-	`github.com/sshawnta/visitor/pkg/model`
+	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 	`github.com/stretchr/testify/assert`
 )
 
@@ -16,8 +16,8 @@ const (
 )
 
 //Simple tests for computer
-func TestForCar(t *testing.T) {
-	t.Run("Test for Car", func(t *testing.T) {
+func TestForPlane(t *testing.T) {
+	t.Run("Test for Plane", func(t *testing.T) {
 		correctPlane := NewPlane(correctModel)
 		assert.Equal(t, correctModel, correctPlane.FullInfo())
 

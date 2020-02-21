@@ -3,12 +3,12 @@ package frame
 import (
 	`fmt`
 
-	`github.com/sshawnta/visitor/pkg/car`
-	`github.com/sshawnta/visitor/pkg/model`
-	`github.com/sshawnta/visitor/pkg/plane`
+	"github.com/sshawnta/golangIntern/visitor/pkg/car"
+	"github.com/sshawnta/golangIntern/visitor/pkg/model"
+	"github.com/sshawnta/golangIntern/visitor/pkg/plane"
 )
 
-//Description of mutable behavior
+//Description of mutable behavior u can change carPrise or make sale for Plane
 type Visitor interface {
 	VisitCar(c car.Car) int
 	VisitPlane(p plane.Plane) float64
@@ -42,6 +42,7 @@ func (v *visitor) VisitPlane(p plane.Plane) float64 {
 	return price
 }
 
+//Constructor for Visitor. Entry value of change. 1st - for cat 2th - for plane
 func NewVisitor(add int, sal float64) Visitor {
 	return &visitor{
 		slogan: add,
