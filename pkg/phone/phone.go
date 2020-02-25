@@ -78,7 +78,7 @@ func (p *phone) checkNumber() (err error) {
 }
 
 func (p *phone) sending(text string) {
-	fmt.Println("Send Message to number ", p.number, " ",text)
+	fmt.Println("Send Message to number ", p.number, " ", text)
 }
 
 // NewPhone fabric of phone exemplar
