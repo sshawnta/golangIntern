@@ -13,7 +13,7 @@ func main() {
 
 	newCar.FullInfo()
 	newPlane.FullInfo()
-	newVisitor := frame.NewVisitor(model.AddPriceCar, model.SalePlane64)
+	newVisitor := frame.NewVisitor(newCar, newPlane,model.AddPriceCar, model.SalePlane64)
 	newCar.Accept(newVisitor)
 	newPlane.Accept(newVisitor)
 }

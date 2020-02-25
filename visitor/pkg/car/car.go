@@ -8,7 +8,7 @@ import (
 
 //Implementation visitor for expansion functional
 type Visitor interface {
-	VisitCar(c Car) int
+	VisitCar(c car) int
 }
 
 //Active actions that can be performed on the car

@@ -3,24 +3,35 @@ package frame
 import (
 	`fmt`
 
-	"github.com/sshawnta/golangIntern/visitor/pkg/car"
 	"github.com/sshawnta/golangIntern/visitor/pkg/model"
-	"github.com/sshawnta/golangIntern/visitor/pkg/plane"
 )
 
 //Description of mutable behavior u can change carPrise or make sale for Plane
 type Visitor interface {
-	VisitCar(c car.Car) int
-	VisitPlane(p plane.Plane) float64
+	VisitCar(c car) int
+	VisitPlane(p plane) float64
+}
+
+
+type car interface {
+	FullInfo() string
+	Price() (int, error)
+}
+
+type plane interface {
+	FullInfo() string
+	Price() (float64, error)
 }
 
 type visitor struct {
+	car car
+	plane plane
 	slogan int
 	sale   float64
 }
 
 //implementation expansion of car
-func (v *visitor) VisitCar(c car.Car) int {
+func (v *visitor) VisitCar(c car) int {
 	price, err := c.Price()
 	if err != nil {
 		fmt.Println(model.NotFoundModel)
@@ -32,7 +43,7 @@ func (v *visitor) VisitCar(c car.Car) int {
 }
 
 //implementation expansion of plane, make sales price
-func (v *visitor) VisitPlane(p plane.Plane) float64 {
+func (v *visitor) VisitPlane(p plane) float64 {
 	price, err := p.Price()
 	if err != nil {
 		fmt.Println(model.NotFoundModel)
@@ -43,8 +54,10 @@ func (v *visitor) VisitPlane(p plane.Plane) float64 {
 }
 
 //Constructor for Visitor. Entry value of change. 1st - for cat 2th - for plane
-func NewVisitor(add int, sal float64) Visitor {
+func NewVisitor(car car, plane plane, add int, sal float64) Visitor {
 	return &visitor{
+		car: car,
+		plane: plane,
 		slogan: add,
 		sale:   sal,
 	}
