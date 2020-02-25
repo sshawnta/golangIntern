@@ -8,19 +8,18 @@ import (
 
 // Phone Active actions that can be performed on the phone
 type Phone interface {
-	Call() (err error)
-	SendMessage(text string) (err error)
+	Call(number string) (err error)
+	SendMessage(number string, text string) (err error)
 }
 
 type phone struct {
 	isLock bool
-	number string
 	pass   string
 }
 
 // SendMessage method sending a massage, must to pass a message text
-func (p *phone) SendMessage(text string) (err error) {
-	err = p.checkNumber()
+func (p *phone) SendMessage(number string, text string) (err error) {
+	err = p.checkNumber(number)
 	if err != nil {
 		return err
 	}
@@ -30,14 +29,14 @@ func (p *phone) SendMessage(text string) (err error) {
 	if err != nil {
 		return err
 	}
-	p.sending(text)
+	p.sending(number, text)
 	p.lock()
 	return
 }
 
 // Call method make phone call
-func (p *phone) Call() (err error) {
-	err = p.checkNumber()
+func (p *phone) Call(number string) (err error) {
+	err = p.checkNumber(number)
 	if err != nil {
 		return err
 	}
@@ -47,7 +46,7 @@ func (p *phone) Call() (err error) {
 	if err != nil {
 		return err
 	}
-	fmt.Println("Calling number ", p.number, )
+	fmt.Println("Calling number", number, )
 	p.lock()
 	return
 }
@@ -67,22 +66,21 @@ func (p *phone) lock() {
 	p.isLock = true
 }
 
-func (p *phone) checkNumber() (err error) {
-	if len(p.number) > model.MaxNumberLenght || len(p.number) < model.MinNumberLenght{
+func (p *phone) checkNumber(number string) (err error) {
+	if len(number) > model.MaxNumberLenght || len(number) < model.MinNumberLenght {
 		return fmt.Errorf(model.PhoneIncorrectNumb)
 	}
 	return
 }
 
-func (p *phone) sending(text string) {
-	fmt.Println("Send Message to number ", p.number, " ", text)
+func (p *phone) sending(number string, text string) {
+	fmt.Println("Send Message to number", number, text)
 }
 
 // NewPhone creates new phone implementation of the Phone interface
-func NewPhone(isLock bool, number string, pass string) Phone {
+func NewPhone(isLock bool, pass string) Phone {
 	return &phone{
 		isLock: isLock,
-		number: number,
 		pass:   pass,
 	}
 }

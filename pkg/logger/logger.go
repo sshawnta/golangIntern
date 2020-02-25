@@ -4,6 +4,6 @@ import (
 	`log`
 )
 
-func LogErrors(err error){
+func LogErrors(err error) {
 	log.Println(err)
 }

@@ -10,7 +10,7 @@ type Mock struct {
 }
 
 //Signature of SendMail computer method
-func (m *Mock) SendMail(text string) (err error) {
-	args := m.Called(text)
+func (m *Mock) SendMail(number string, text string) (err error) {
+	args := m.Called(number, text)
 	return args.Error(0)
 }

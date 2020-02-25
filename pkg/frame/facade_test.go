@@ -3,9 +3,9 @@ package frame
 import (
 	`testing`
 
-	computer2 `github.com/sshawnta/golangIntern/pkg/computer`
+	`github.com/sshawnta/golangIntern/pkg/computer`
 	`github.com/sshawnta/golangIntern/pkg/model`
-	phone2 `github.com/sshawnta/golangIntern/pkg/phone`
+	`github.com/sshawnta/golangIntern/pkg/phone`
 	`github.com/stretchr/testify/assert`
 )
 
@@ -19,20 +19,21 @@ const (
 func TestAllUse(t *testing.T) {
 	t.Run("Test facade", func(t *testing.T) {
 		err := *new(error)
-		comparisonMock := new(phone2.Mock)
-		comparisonMock.On(methodCallPhone).Return(error(err)).Once()
-		comparisonMock.On(methodMessagePhone, model.Message).Return(error(err)).Once()
+		comparisonMock := new(phone.Mock)
+		comparisonMock.On(methodCallPhone, model.NumberToCallOrMassage).Return(error(err)).Once()
+		comparisonMock.On(methodMessagePhone, model.NumberToCallOrMassage, model.Message).Return(error(err)).Once()
 
-		computerMock := new(computer2.Mock)
-		computerMock.On(methodMessageComp, model.Message).Return(error(err)).Once()
+		computerMock := new(computer.Mock)
+		computerMock.On(methodMessageComp, model.NumberToCallOrMassage, model.Message).Return(error(err)).Once()
 		myFacade := NewFacade(comparisonMock, computerMock)
 
-		res := myFacade.CallPhone()
+		res := myFacade.CallPhone(model.NumberToCallOrMassage)
 		assert.Equal(t, err, res)
-		res = myFacade.MessagePhone()
+		res = myFacade.MessagePhone(model.NumberToCallOrMassage, model.Message)
 		assert.Equal(t, err, res)
-		res = myFacade.MessageComp()
+		res = myFacade.MessageComp(model.NumberToCallOrMassage, model.Message)
 		assert.Equal(t, err, res)
 
 	})
+
 }

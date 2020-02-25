@@ -9,20 +9,20 @@ import (
 )
 
 func main() {
-	newPhone := phone.NewPhone(model.PhoneLock, model.NumberToCallOrMassage, model.PhonePassword)
-	newComputer := computer.NewComputer(model.PowerOfComputer,model.NumberToCallOrMassage, model.UserComp, model.PassComp)
+	newPhone := phone.NewPhone(model.PhoneLock, model.PhonePassword)
+	newComputer := computer.NewComputer(model.PowerOfComputer, model.UserComp, model.PassComp)
 	newFacade := frame.NewFacade(newPhone, newComputer)
 
-	err := newFacade.CallPhone()
-	if err !=nil{
+	err := newFacade.CallPhone(model.NumberToCallOrMassage)
+	if err != nil {
 		logger.LogErrors(err)
 	}
-	err = newFacade.MessagePhone()
-	if err != nil{
+	err = newFacade.MessagePhone(model.NumberToCallOrMassage, model.Message)
+	if err != nil {
 		logger.LogErrors(err)
 	}
-	err = newFacade.MessageComp()
-	if err != nil{
+	err = newFacade.MessageComp(model.NumberToCallOrMassage, model.Message)
+	if err != nil {
 		logger.LogErrors(err)
 	}
 }

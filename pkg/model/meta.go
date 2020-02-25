@@ -2,7 +2,7 @@ package model
 
 const (
 	//User data
-	NumberToCallOrMassage = "121242891"
+	NumberToCallOrMassage = "1223442891"
 	UserComp              = "user"
 	PassComp              = "pass"
 	PhonePassword         = "1234"

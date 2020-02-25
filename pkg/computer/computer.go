@@ -8,18 +8,17 @@ import (
 
 // Computer active actions that can be performed on the computer
 type Computer interface {
-	SendMail(text string) (err error)
+	SendMail(number string, text string) (err error)
 }
 
 type computer struct {
 	isPower bool
-	number  string
 	user    string
 	pass    string
 }
 
 // SendMail method sending a massage, must to pass a message text
-func (c *computer) SendMail(text string) (err error) {
+func (c *computer) SendMail(number string, text string) (err error) {
 	if !c.isPower {
 		c.powerOn()
 	}
@@ -27,7 +26,7 @@ func (c *computer) SendMail(text string) (err error) {
 	if err != nil {
 		return err
 	}
-	c.sending(text)
+	c.sending(number, text)
 	c.powerOff()
 	return
 }
@@ -55,15 +54,14 @@ func (c *computer) powerOff() {
 	}
 }
 
-func (c *computer) sending(text string) {
-	fmt.Println("Send Message", c.number, " ", text)
+func (c *computer) sending(number string, text string) {
+	fmt.Println("Send Message", number, text)
 }
 
-// NewComputer constructor of computer exemplar.
-func NewComputer(isPower bool, number string, user string, pass string) Computer {
+// NewComputer creates new computer implementation of the computer interface
+func NewComputer(isPower bool, user string, pass string) Computer {
 	return &computer{
 		isPower: isPower,
-		number:  number,
 		user:    user,
 		pass:    pass,
 	}

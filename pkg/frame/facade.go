@@ -1,48 +1,44 @@
 package frame
 
-import (
-	`github.com/sshawnta/golangIntern/pkg/model`
-)
-
-type phone interface {
-	Call() (err error)
-	SendMessage(text string) (err error)
+type phoneFacade interface {
+	Call(number string) (err error)
+	SendMessage(number string, text string) (err error)
 }
 
-type computer interface {
-	SendMail(text string) (err error)
+type computerFacade interface {
+	SendMail(number string, text string) (err error)
 }
 
 // Facade interface Active actions that can be performed on the facade
 type Facade interface {
-	CallPhone() (err error)
-	MessagePhone() (err error)
-	MessageComp() (err error)
+	CallPhone(number string) (err error)
+	MessagePhone(number string, message string) (err error)
+	MessageComp(number string, message string) (err error)
 }
 
 type facade struct {
-	phone    phone
-	computer computer
+	phone    phoneFacade
+	computer computerFacade
 }
 
 // CallPhone Make a phone call
-func (f *facade) CallPhone() (err error) {
-	return f.phone.Call()
+func (f *facade) CallPhone(number string) (err error) {
+	return f.phone.Call(number)
 }
 
 // MessagePhone Send message from phone
-func (f *facade) MessagePhone() (err error) {
-	return f.phone.SendMessage(model.Message)
+func (f *facade) MessagePhone(number string, message string) (err error) {
+	return f.phone.SendMessage(number, message)
 }
 
 // MessageComp Send message from computer
-func (f *facade) MessageComp() (err error) {
-	return f.computer.SendMail(model.Message)
+func (f *facade) MessageComp(number string, message string) (err error) {
+	return f.computer.SendMail(number, message)
 }
 
 // NewFacade constructor of facade exemplar
 // You must fill in information about your computer and phone number, password, user name and message text
-func NewFacade(phone phone, computer computer) Facade {
+func NewFacade(phone phoneFacade, computer computerFacade) Facade {
 	return &facade{
 		phone:    phone,
 		computer: computer,

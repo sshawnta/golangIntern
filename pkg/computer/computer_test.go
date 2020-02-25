@@ -17,19 +17,18 @@ const (
 func TestForPhone(t *testing.T) {
 
 	t.Run("correct testing ForComputer", func(t *testing.T) {
-		correctComputer := NewComputer(model.PowerOfComputer,model.NumberToCallOrMassage, model.UserComp, model.PassComp)
-		assert.Equal(t, nil, correctComputer.SendMail(model.Message))
-
+		correctComputer := NewComputer(model.PowerOfComputer, model.UserComp, model.PassComp)
+		assert.Equal(t, nil, correctComputer.SendMail(model.NumberToCallOrMassage, model.Message))
 
 	})
-	t.Run("wrong testing for Computer", func(t *testing.T){
+	t.Run("wrong testing for Computer", func(t *testing.T) {
 
-		wrongPassComputer := NewComputer(model.PowerOfComputer, model.NumberToCallOrMassage, model.UserComp, wrongPass)
+		wrongPassComputer := NewComputer(model.PowerOfComputer, model.UserComp, wrongPass)
 		err := fmt.Errorf(model.CompIncorrectLogOrPass)
-		assert.Equal(t, err, wrongPassComputer.SendMail(model.Message))
+		assert.Equal(t, err, wrongPassComputer.SendMail(model.NumberToCallOrMassage, model.Message))
 
-		wrongUserComputer := NewComputer(model.PowerOfComputer, model.NumberToCallOrMassage, wrongUser, model.PassComp)
-		assert.Equal(t, err, wrongUserComputer.SendMail(model.Message))
+		wrongUserComputer := NewComputer(model.PowerOfComputer, wrongUser, model.PassComp)
+		assert.Equal(t, err, wrongUserComputer.SendMail(model.NumberToCallOrMassage, model.Message))
 	})
 
 }
