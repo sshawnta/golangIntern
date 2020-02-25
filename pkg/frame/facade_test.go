@@ -13,26 +13,26 @@ const (
 	methodCallPhone    = "Call"
 	methodMessagePhone = "SendMessage"
 	methodMessageComp  = "SendMail"
-
-	Result = "Success"
 )
 
 //Facade testing
 func TestAllUse(t *testing.T) {
 	t.Run("Test facade", func(t *testing.T) {
+		err := *new(error)
 		comparisonMock := new(phone2.Mock)
-		comparisonMock.On(methodCallPhone).Return(string(Result)).Once()
-		comparisonMock.On(methodMessagePhone, model.Message).Return(string(Result)).Once()
+		comparisonMock.On(methodCallPhone).Return(error(err)).Once()
+		comparisonMock.On(methodMessagePhone, model.Message).Return(error(err)).Once()
 
 		computerMock := new(computer2.Mock)
-		computerMock.On(methodMessageComp, model.Message).Return(string(Result)).Once()
-
+		computerMock.On(methodMessageComp, model.Message).Return(error(err)).Once()
 		myFacade := NewFacade(comparisonMock, computerMock)
+
 		res := myFacade.CallPhone()
-		assert.Equal(t, Result, res)
+		assert.Equal(t, err, res)
 		res = myFacade.MessagePhone()
-		assert.Equal(t, Result, res)
+		assert.Equal(t, err, res)
 		res = myFacade.MessageComp()
-		assert.Equal(t, Result, res)
+		assert.Equal(t, err, res)
+
 	})
 }

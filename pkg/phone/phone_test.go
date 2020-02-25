@@ -1,6 +1,7 @@
 package phone
 
 import (
+	`fmt`
 	"testing"
 
 	`github.com/sshawnta/golangIntern/pkg/model`
@@ -8,29 +9,26 @@ import (
 )
 
 const (
-	successResult = "Success"
-	failResult    = "Fail"
-	wrongPass     = "12"
-	wrongNumb     = "893448234234234"
+	wrongPass = "12"
+	wrongNumb = "893448234234234"
 )
 
 //Simple Test for phone
 func TestForPhone(t *testing.T) {
-	t.Run("testing ForPhone", func(t *testing.T) {
+	t.Run("Correct testing ForPhone", func(t *testing.T) {
 		correctPhone := NewPhone(model.PhoneLock, model.NumberToCallOrMassage, model.PhonePassword)
-		assert.Equal(t, successResult, correctPhone.Call())
-		assert.Equal(t, successResult, correctPhone.SendMessage(model.Message))
+		assert.Equal(t, nil, correctPhone.Call())
+		assert.Equal(t, nil, correctPhone.SendMessage(model.Message))
+	})
+	t.Run("Wrong testing ForPhone", func(t *testing.T) {
+		wrongNumbPhone := NewPhone(model.PhoneLock, wrongNumb, model.PhonePassword)
+		err := fmt.Errorf(model.PhoneIncorrectNumb)
+		assert.Equal(t, err, wrongNumbPhone.Call())
+		assert.Equal(t, err, wrongNumbPhone.SendMessage(model.Message))
 
 		wrongPassPhone := NewPhone(model.PhoneLock, model.NumberToCallOrMassage, wrongPass)
-		assert.Equal(t, failResult, wrongPassPhone.SendMessage(model.Message))
-		assert.Equal(t, failResult, wrongPassPhone.Call())
-
-		wrongNumbPhone := NewPhone(model.PhoneLock, wrongNumb, model.PhonePassword)
-		assert.Equal(t, failResult, wrongNumbPhone.SendMessage(model.Message))
-		assert.Equal(t, failResult, wrongNumbPhone.Call())
-
-		wrongPassPhoneUnlock := NewPhone(model.PhoneUnlock, model.NumberToCallOrMassage, wrongPass)
-		assert.Equal(t, successResult, wrongPassPhoneUnlock.SendMessage(model.Message))
-		assert.Equal(t, failResult, wrongPassPhoneUnlock.Call())
+		err = fmt.Errorf(model.PhoneIncorrectPass)
+		assert.Equal(t, err, wrongPassPhone.Call())
+		assert.Equal(t, err, wrongPassPhone.SendMessage(model.Message))
 	})
 }

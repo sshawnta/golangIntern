@@ -10,13 +10,13 @@ type Mock struct {
 }
 
 //Mock sendMessage method of phone
-func (m *Mock) SendMessage(text string) string {
+func (m *Mock) SendMessage(text string) (err error) {
 	args := m.Called(text)
-	return args.Get(0).(string)
+	return args.Error(0)
 }
 
 //Mock call method of phone
-func (m *Mock) Call() string {
+func (m *Mock) Call()  (err error) {
 	args := m.Called()
-	return args.Get(0).(string)
+	return args.Error(0)
 }

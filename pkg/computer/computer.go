@@ -6,9 +6,9 @@ import (
 	"github.com/sshawnta/golangIntern/pkg/model"
 )
 
-// Computer Active actions that can be performed on the computer
+// Computer active actions that can be performed on the computer
 type Computer interface {
-	SendMail(text string) string
+	SendMail(text string) (err error)
 }
 
 type computer struct {
@@ -19,17 +19,17 @@ type computer struct {
 }
 
 // SendMail method sending a massage, must to pass a message text
-func (c *computer) SendMail(text string) string {
+func (c *computer) SendMail(text string) (err error) {
 	if !c.isPower {
 		c.powerOn()
 	}
-	err := c.login()
+	err = c.login()
 	if err != nil {
-		return model.FailComplete
+		return err
 	}
 	c.sending(text)
 	c.powerOff()
-	return model.SuccessComplete
+	return
 }
 
 func (c *computer) login() (err error) {
@@ -37,8 +37,7 @@ func (c *computer) login() (err error) {
 		fmt.Println("Login")
 		return nil
 	}
-	fmt.Println(model.CompIncorrectLogOrPass)
-	err = fmt.Errorf(model.PhoneIncorrectPass)
+	err = fmt.Errorf(model.CompIncorrectLogOrPass)
 	return err
 }
 
@@ -61,11 +60,11 @@ func (c *computer) sending(text string) {
 }
 
 // NewComputer constructor of computer exemplar.
-func NewComputer(num string, name string, pass string) Computer {
+func NewComputer(isPower bool, number string, user string, pass string) Computer {
 	return &computer{
-		isPower: false,
-		number:  num,
-		user:    name,
+		isPower: isPower,
+		number:  number,
+		user:    user,
 		pass:    pass,
 	}
 }
