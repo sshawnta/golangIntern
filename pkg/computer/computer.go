@@ -20,7 +20,7 @@ type computer struct {
 
 // SendMail method sending a massage, must to pass a message text
 func (c *computer) SendMail(text string) string {
-	if c.isPower == false {
+	if !c.isPower{
 		c.powerOn()
 	}
 	err := c.login()
@@ -43,14 +43,14 @@ func (c *computer) login() (err error) {
 }
 
 func (c *computer) powerOn() {
-	if c.isPower == false {
+	if !c.isPower{
 		c.isPower = true
 		fmt.Println("PowerOn")
 	}
 }
 
 func (c *computer) powerOff() {
-	if c.isPower == true {
+	if c.isPower {
 		c.isPower = false
 		fmt.Println("PowerOff")
 	}
