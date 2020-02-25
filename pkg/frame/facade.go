@@ -12,6 +12,8 @@ type phone interface {
 type computer interface {
 	SendMail(text string) string
 }
+
+// Facade interface Active actions that can be performed on the facade
 type Facade interface {
 	CallPhone() string
 	MessagePhone() string
@@ -22,23 +24,23 @@ type facade struct {
 	computer computer
 }
 
-//Make a phone call
+// CallPhone Make a phone call
 func (f *facade) CallPhone() string {
 	return f.phone.Call()
 }
 
-//Send message from phone
+// MessagePhone Send message from phone
 func (f *facade) MessagePhone() string {
 	return f.phone.SendMessage(model.Message)
 }
 
-//Send message from computer
+// MessageComp Send message from computer
 func (f *facade) MessageComp() string {
 	return f.computer.SendMail(model.Message)
 }
 
-//Fabric of facade exemplar
-//You must fill in information about your computer and phone number, password, user name and message text
+// NewFacade Fabric of facade exemplar
+// You must fill in information about your computer and phone number, password, user name and message text
 func NewFacade(phone phone, computer computer) Facade {
 	return &facade{
 		phone:    phone,
