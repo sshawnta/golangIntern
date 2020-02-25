@@ -8,7 +8,7 @@ import (
 
 //Implementation visitor for expansion functional
 type Visitor interface {
-	VisitCar(c car) int
+	VisitCar(c Car) int
 }
 
 //Active actions that can be performed on the car
@@ -22,6 +22,7 @@ type car struct {
 	model string
 	price int
 }
+
 
 //Return price of car exemplar
 func (c *car) Price() (int, error) {
