@@ -1,19 +1,30 @@
 package main
 
 import (
+	`fmt`
+
 	"github.com/sshawnta/golangIntern/visitor/pkg/car"
-	"github.com/sshawnta/golangIntern/visitor/pkg/frame"
+	`github.com/sshawnta/golangIntern/visitor/pkg/frame`
+
+	//"github.com/sshawnta/golangIntern/visitor/pkg/frame"
 	"github.com/sshawnta/golangIntern/visitor/pkg/model"
-	"github.com/sshawnta/golangIntern/visitor/pkg/plane"
 )
 
 func main() {
-	newCar := car.NewCar(model.OpelCar)
-	newPlane := plane.NewPlane(model.AirPlane)
+	 fullInfoCar := map[string]int{
+		 model.OpelCar:  model.OpelPrice,
+		 model.MazdaCar: model.MazdaPrice,
+		 model.BMWCar:   model.BMWPrice,
+	 }
 
-	newCar.FullInfo()
-	newPlane.FullInfo()
-	newVisitor := frame.NewVisitor(model.AddPriceCar, model.SalePlane64)
+	newCar := car.NewCar("Opel", fullInfoCar)
+	//newPlane := plane.NewPlane(model.AirPlane)
+	_, _,err := newCar.FullInfo()
+	if  err != nil{
+		fmt.Println(err)
+	}
+	//newPlane.FullInfo()
+	newVisitor := frame.NewVisitor(newCar,model.AddPriceCar, model.SalePlane64)
 	newCar.Accept(newVisitor)
-	newPlane.Accept(newVisitor)
+	//newPlane.Accept(newVisitor)
 }

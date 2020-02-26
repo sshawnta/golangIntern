@@ -2,7 +2,7 @@ package model
 
 const (
 	//ModelCar
-	OpelCar  = "Opel"
+	OpelCar  = "Op2el"
 	MazdaCar = "Mazda"
 	BMWCar   = "BMW"
 
@@ -26,5 +26,5 @@ const (
 	SalePlane64 = 5.0
 
 	//Errors
-	NotFoundModel = "This model not found"
+	NotFoundModel = "this model not found"
 )

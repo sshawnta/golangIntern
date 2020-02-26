@@ -8,27 +8,27 @@ import (
 
 //Implementation visitor for expansion functional
 type Visitor interface {
-	VisitCar(c Car) int
+	VisitCar(c car) (int, error)
 }
 
 //Active actions that can be performed on the car
 type Car interface {
-	FullInfo() string
+	FullInfo()(model string, price int, err error)
 	Price() (int, error)
-	Accept(v Visitor) int
+	Accept(v Visitor) (int,error)
 }
 
 type car struct {
 	model string
-	price int
+	fullinfo map[string]int
 }
 
 
 //Return price of car exemplar
 func (c *car) Price() (int, error) {
-	carInfo := c.makeDate()
+	//carInfo := c.makeDate()
 	var err error
-	if res, ok := carInfo[c.model]; ok {
+	if res, ok := c.fullinfo[c.model]; ok {
 		return res, nil
 	}
 	err = fmt.Errorf(model.NotFoundModel)
@@ -36,28 +36,37 @@ func (c *car) Price() (int, error) {
 }
 
 //Get full info about car model
-func (c *car) FullInfo() string {
-	fmt.Println(c.model)
-	return c.model
+func (c *car) FullInfo() (modelCar string, price int, err error) {
+	if res, ok:=c.fullinfo[c.model]; ok{
+		fmt.Println(c.model, res)
+		return c.model, res,nil
+	}
+	err = fmt.Errorf(model.NotFoundModel)
+	return c.model,0, err
 }
 
 //Increases the price
-func (c *car) Accept(v Visitor) int {
-	res := v.VisitCar(c)
-	return res
+func (c *car) Accept(v Visitor) (int,error) {
+	res, err := v.VisitCar(*c)
+	if err != nil{
+		err = fmt.Errorf(model.NotFoundModel)
+		return 0, err
+	}
+	return res, nil
 }
 
-func (c *car) makeDate() map[string]int {
+/*func  (c *car)makeDate() map[string]int {
 	return map[string]int{
 		model.OpelCar:  model.OpelPrice,
 		model.MazdaCar: model.MazdaPrice,
 		model.BMWCar:   model.BMWPrice,
 	}
-}
+}*/
 
 //Constructor for car. Entry model of car
-func NewCar(modelCar string) Car {
+func NewCar(modelCar string, fullinfo map[string]int) Car {
 	return &car{
 		model: modelCar,
+		fullinfo:fullinfo,
 	}
 }
