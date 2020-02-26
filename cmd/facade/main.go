@@ -10,7 +10,7 @@ import (
 
 func main() {
 	newPhone := phone.NewPhone(model.PhoneLock, model.PhonePassword)
-	newComputer := computer.NewComputer(model.PowerOfComputer, model.UserComp, model.PassComp)
+	newComputer := computer.NewComputer(model.PowerOfComputer, model.UserComp, model.PassComp, model.CorrectCompUser, model.CorrectCompPass)
 	newFacade := frame.NewFacade(newPhone, newComputer)
 
 	err := newFacade.CallPhone(model.NumberToCallOrMassage)

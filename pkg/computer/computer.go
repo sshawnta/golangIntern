@@ -12,9 +12,11 @@ type Computer interface {
 }
 
 type computer struct {
-	isPower bool
-	user    string
-	pass    string
+	isPower     bool
+	user        string
+	pass        string
+	correctUser string
+	correctPass string
 }
 
 // SendMail method sending a massage, must to pass a message text
@@ -32,12 +34,12 @@ func (c *computer) SendMail(number string, text string) (err error) {
 }
 
 func (c *computer) login() (err error) {
-	if c.user == model.CorrectCompUser && c.pass == model.CorrectCompPass {
+	if c.user == c.correctUser && c.pass == c.correctPass {
 		fmt.Println("Login")
-		return nil
+		return
 	}
 	err = fmt.Errorf(model.CompIncorrectLogOrPass)
-	return err
+	return
 }
 
 func (c *computer) powerOn() {
@@ -59,10 +61,12 @@ func (c *computer) sending(number string, text string) {
 }
 
 // NewComputer creates new computer implementation of the computer interface
-func NewComputer(isPower bool, user string, pass string) Computer {
+func NewComputer(isPower bool, user string, pass string, correctUser string, correctPass string) Computer {
 	return &computer{
-		isPower: isPower,
-		user:    user,
-		pass:    pass,
+		isPower:     isPower,
+		user:        user,
+		pass:        pass,
+		correctUser: correctUser,
+		correctPass: correctPass,
 	}
 }
