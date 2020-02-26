@@ -25,14 +25,16 @@ type car struct {
 
 
 //Return price of car exemplar
-func (c *car) Price() (int, error) {
+func (c *car) Price() (res int, err error) {
 	//carInfo := c.makeDate()
-	var err error
-	if res, ok := c.fullinfo[c.model]; ok {
-		return res, nil
+	if _, ok := c.fullinfo[c.model]; !ok {
+		err = fmt.Errorf(model.NotFoundModel)
+		return 0, err
 	}
+	res = c.fullinfo[c.model]
 	err = fmt.Errorf(model.NotFoundModel)
-	return 0, err
+	return res, nil
+
 }
 
 //Get full info about car model
