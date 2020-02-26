@@ -23,7 +23,7 @@ type plane interface {
 }
 
 type visitor struct {
-	car    car
+	car car
 	slogan int
 	sale   float64
 }
@@ -52,9 +52,9 @@ func (v *visitor) VisitPlane(p plane) float64 {
 }
 
 //Constructor for Visitor. Entry value of change. 1st - for cat 2th - for plane
-func NewVisitor(car car, add int, sal float64) Visitor {
+func NewVisitor(car car,add int, sal float64) Visitor {
 	return &visitor{
-		car:    car,
+		car: car,
 		slogan: add,
 		sale:   sal,
 	}

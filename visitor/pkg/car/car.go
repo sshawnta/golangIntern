@@ -52,6 +52,7 @@ func (c *car) Accept(v Visitor) (int,error) {
 		err = fmt.Errorf(model.NotFoundModel)
 		return 0, err
 	}
+	c.fullinfo[c.model] = res
 	return res, nil
 }
 
