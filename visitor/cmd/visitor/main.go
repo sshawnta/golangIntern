@@ -17,7 +17,7 @@ func main() {
 		 model.BMWCar:   model.BMWPrice,
 	 }
 
-	newCar := car.NewCar("Opel", fullInfoCar)
+	newCar := car.NewCar(model.OpelCar, fullInfoCar)
 	//newPlane := plane.NewPlane(model.AirPlane)
 	_, _,err := newCar.FullInfo()
 	if  err != nil{

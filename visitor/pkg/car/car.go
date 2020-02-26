@@ -8,7 +8,7 @@ import (
 
 //Implementation visitor for expansion functional
 type Visitor interface {
-	VisitCar(c car) (int, error)
+	VisitCar() (int, error)
 }
 
 //Active actions that can be performed on the car
@@ -47,7 +47,7 @@ func (c *car) FullInfo() (modelCar string, price int, err error) {
 
 //Increases the price
 func (c *car) Accept(v Visitor) (int,error) {
-	res, err := v.VisitCar(*c)
+	res, err := v.VisitCar()
 	if err != nil{
 		err = fmt.Errorf(model.NotFoundModel)
 		return 0, err
