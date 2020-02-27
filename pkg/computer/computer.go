@@ -26,7 +26,7 @@ func (c *computer) SendMail(number string, text string) (err error) {
 	}
 	err = c.login()
 	if err != nil {
-		return err
+		return
 	}
 	c.sending(number, text)
 	c.powerOff()

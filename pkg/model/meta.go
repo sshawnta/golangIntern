@@ -1,15 +1,14 @@
 package model
 
 const (
-	//User data
+	// User data
 	NumberToCallOrMassage = "1223442891"
 	UserComp              = "user"
 	PassComp              = "pass"
 	PhonePassword         = "1234"
 	PhoneLock             = true
-	PhoneUnlock           = false
 
-	//Correct Data
+	// Correct Data
 	CorrectPhonePassword = "1234"
 	CorrectCompUser      = "user"
 	CorrectCompPass      = "pass"
@@ -17,14 +16,11 @@ const (
 	MinNumberLenght      = 6
 	PowerOfComputer      = false
 
-	//Content
+	// Content
 	Message = "text"
 
-	//Error Message
+	// Error Message
 	CompIncorrectLogOrPass = "incorrect login or password"
 	PhoneIncorrectPass     = "incorrect password"
 	PhoneIncorrectNumb     = "incorrect number"
-
-	SuccessComplete = "Success"
-	FailComplete    = "Fail"
 )

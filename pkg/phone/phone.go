@@ -15,19 +15,21 @@ type Phone interface {
 type phone struct {
 	isLock bool
 	pass   string
+	maxLen int
+	minLen int
 }
 
 // SendMessage method sending a massage, must to pass a message text
 func (p *phone) SendMessage(number string, text string) (err error) {
 	err = p.checkNumber(number)
 	if err != nil {
-		return err
+		return
 	}
 	if p.isLock {
 		err = p.unlock()
 	}
 	if err != nil {
-		return err
+		return
 	}
 	p.sending(number, text)
 	p.lock()
@@ -38,13 +40,13 @@ func (p *phone) SendMessage(number string, text string) (err error) {
 func (p *phone) Call(number string) (err error) {
 	err = p.checkNumber(number)
 	if err != nil {
-		return err
+		return
 	}
 	if p.isLock {
 		err = p.unlock()
 	}
 	if err != nil {
-		return err
+		return
 	}
 	fmt.Println("Calling number", number, )
 	p.lock()
@@ -55,7 +57,7 @@ func (p *phone) unlock() (err error) {
 	if p.pass == model.CorrectPhonePassword {
 		p.isLock = false
 		fmt.Println("Phone unlock")
-		return nil
+		return
 	}
 	fmt.Println(model.PhoneIncorrectPass)
 	return fmt.Errorf(model.PhoneIncorrectPass)
@@ -67,7 +69,7 @@ func (p *phone) lock() {
 }
 
 func (p *phone) checkNumber(number string) (err error) {
-	if len(number) > model.MaxNumberLenght || len(number) < model.MinNumberLenght {
+	if len(number) > p.maxLen || len(number) < p.minLen {
 		return fmt.Errorf(model.PhoneIncorrectNumb)
 	}
 	return
@@ -78,9 +80,11 @@ func (p *phone) sending(number string, text string) {
 }
 
 // NewPhone creates new phone implementation of the Phone interface
-func NewPhone(isLock bool, pass string) Phone {
+func NewPhone(isLock bool, pass string, maxLen int, minLen int) Phone {
 	return &phone{
 		isLock: isLock,
 		pass:   pass,
+		maxLen: maxLen,
+		minLen: minLen,
 	}
 }
