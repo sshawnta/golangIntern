@@ -2,6 +2,7 @@ package plane
 
 import (
 	`fmt`
+	`sync`
 
 	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 )
@@ -20,11 +21,14 @@ type Plane interface {
 
 type plane struct {
 	model    string
+	sync.Mutex
 	fullInfo map[string]float64
 }
 
 // Price Return price of car exemplar
 func (p *plane) Price() (res float64, err error) {
+	p.Lock()
+	defer p.Unlock()
 	if _, ok := p.fullInfo[p.model]; !ok {
 		err = fmt.Errorf(model.NotFoundModel)
 		return
@@ -35,6 +39,8 @@ func (p *plane) Price() (res float64, err error) {
 
 // FullInfo Get full info about plane model
 func (p *plane) FullInfo() (err error) {
+	p.Lock()
+	defer p.Unlock()
 	if _, ok := p.fullInfo[p.model]; !ok {
 		err = fmt.Errorf(model.NotFoundModel)
 		return
@@ -50,6 +56,8 @@ func (p *plane) Accept(v Visitor) (res float64, err error) {
 	if err != nil {
 		return
 	}
+	p.Lock()
+	defer p.Unlock()
 	p.fullInfo[p.model] = res
 	return
 }

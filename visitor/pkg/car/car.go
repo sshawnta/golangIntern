@@ -2,6 +2,7 @@ package car
 
 import (
 	`fmt`
+	`sync`
 
 	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 )
@@ -20,11 +21,14 @@ type Car interface {
 
 type car struct {
 	model    string
+	sync.Mutex
 	fullInfo map[string]int
 }
 
 // Price Return price of car exemplar
 func (c *car) Price() (res int, err error) {
+	c.Lock()
+	defer c.Unlock()
 	if _, ok := c.fullInfo[c.model]; !ok {
 		err = fmt.Errorf(model.NotFoundModel)
 		return
@@ -36,6 +40,8 @@ func (c *car) Price() (res int, err error) {
 
 // FullInfo Get full info about car model
 func (c *car) FullInfo() (modelCar string, price int, err error) {
+	c.Lock()
+	defer c.Unlock()
 	if _, ok := c.fullInfo[c.model]; !ok {
 		err = fmt.Errorf(model.NotFoundModel)
 		return
@@ -52,6 +58,8 @@ func (c *car) Accept(v Visitor) (res int, err error) {
 	if err != nil {
 		return
 	}
+	c.Lock()
+	defer c.Unlock()
 	c.fullInfo[c.model] = res
 	return
 }
