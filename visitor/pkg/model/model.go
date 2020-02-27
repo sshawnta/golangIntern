@@ -2,7 +2,7 @@ package model
 
 const (
 	//ModelCar
-	OpelCar  = "Op2el"
+	OpelCar  = "Opel"
 	MazdaCar = "Mazda"
 	BMWCar   = "BMW"
 
@@ -13,7 +13,7 @@ const (
 
 	//ModePlane
 	BoeingPlane = "Boeing"
-	AirPlane    = "AirBus"
+	AirBusPlane    = "AirBus"
 	IlPlane     = "Il"
 
 	//PricePlane

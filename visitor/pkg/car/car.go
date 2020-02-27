@@ -6,70 +6,60 @@ import (
 	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 )
 
-//Implementation visitor for expansion functional
+// Visitor Implementation visitor for expansion functional
 type Visitor interface {
-	VisitCar() (int, error)
+	VisitCar(c Car) (int, error)
 }
 
-//Active actions that can be performed on the car
+// Car Active actions that can be performed on the car
 type Car interface {
-	FullInfo()(model string, price int, err error)
-	Price() (int, error)
-	Accept(v Visitor) (int,error)
+	FullInfo() (modelCar string, price int, err error)
+	Price() (res int, err error)
+	Accept(v Visitor) (res int, err error)
 }
 
 type car struct {
-	model string
-	fullinfo map[string]int
+	model    string
+	fullInfo map[string]int
 }
 
-
-//Return price of car exemplar
+// Price Return price of car exemplar
 func (c *car) Price() (res int, err error) {
-	//carInfo := c.makeDate()
-	if _, ok := c.fullinfo[c.model]; !ok {
+	if _, ok := c.fullInfo[c.model]; !ok {
 		err = fmt.Errorf(model.NotFoundModel)
-		return 0, err
+		return
 	}
-	res = c.fullinfo[c.model]
-	err = fmt.Errorf(model.NotFoundModel)
-	return res, nil
+	res = c.fullInfo[c.model]
+	return
 
 }
 
-//Get full info about car model
+// FullInfo Get full info about car model
 func (c *car) FullInfo() (modelCar string, price int, err error) {
-	if res, ok:=c.fullinfo[c.model]; ok{
-		fmt.Println(c.model, res)
-		return c.model, res,nil
-	}
-	err = fmt.Errorf(model.NotFoundModel)
-	return c.model,0, err
-}
-
-//Increases the price
-func (c *car) Accept(v Visitor) (int,error) {
-	res, err := v.VisitCar()
-	if err != nil{
+	if _, ok := c.fullInfo[c.model]; !ok {
 		err = fmt.Errorf(model.NotFoundModel)
-		return 0, err
+		return
 	}
-	c.fullinfo[c.model] = res
-	return res, nil
+	modelCar = c.model
+	price = c.fullInfo[modelCar]
+	fmt.Println(c.model, price)
+	return
 }
 
-/*func  (c *car)makeDate() map[string]int {
-	return map[string]int{
-		model.OpelCar:  model.OpelPrice,
-		model.MazdaCar: model.MazdaPrice,
-		model.BMWCar:   model.BMWPrice,
+// Accept Increases the price
+func (c *car) Accept(v Visitor) (res int, err error) {
+	res, err = v.VisitCar(c)
+	if err != nil {
+		return
 	}
-}*/
+	c.fullInfo[c.model] = res
+	return
+}
 
-//Constructor for car. Entry model of car
-func NewCar(modelCar string, fullinfo map[string]int) Car {
+// NewCar Constructor for car. Entry model of car
+func NewCar(modelCar string, fullInfo map[string]int) Car {
 	return &car{
-		model: modelCar,
-		fullinfo:fullinfo,
+		model:    modelCar,
+		fullInfo: fullInfo,
 	}
 }

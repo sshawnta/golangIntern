@@ -6,58 +6,58 @@ import (
 	"github.com/sshawnta/golangIntern/visitor/pkg/model"
 )
 
-//Implementation visitor for expansion functional
+// Visitor Implementation visitor for expansion functional
 type Visitor interface {
-	VisitPlane(p Plane) float64
+	VisitPlane(p Plane) (res float64, err error)
 }
 
-//Active actions that can be performed on the plane
+// Plane Active actions that can be performed on the plane
 type Plane interface {
-	FullInfo() string
-	Price() (float64, error)
-	Accept(v Visitor) float64
+	FullInfo() (err error)
+	Price() (res float64, err error)
+	Accept(v Visitor) (res float64, err error)
 }
 
 type plane struct {
-	model string
-	price float64
+	model    string
+	fullInfo map[string]float64
 }
 
-//Return car of plane exemplar
-func (p *plane) Price() (float64, error) {
-	planeInfo := p.makeDate()
-	var err error
-	if res, ok := planeInfo[p.model]; ok {
-		return res, nil
+// Price Return price of car exemplar
+func (p *plane) Price() (res float64, err error) {
+	if _, ok := p.fullInfo[p.model]; !ok {
+		err = fmt.Errorf(model.NotFoundModel)
+		return
 	}
-	err = fmt.Errorf(model.NotFoundModel)
-	return 0, err
+	res = p.fullInfo[p.model]
+	return
 }
 
-//Get full info about plane model
-func (p *plane) FullInfo() string {
-	res := p.model
-	fmt.Println(p.model)
-	return res
-}
-
-//Increases the sale
-func (p *plane) Accept(v Visitor) float64 {
-	res := v.VisitPlane(p)
-	return res
-}
-
-func (p *plane) makeDate() map[string]float64 {
-	return map[string]float64{
-		model.BoeingPlane: model.BoeingPrice,
-		model.AirPlane:    model.AirBusPrice,
-		model.IlPlane:     model.IlPrice,
+// FullInfo Get full info about plane model
+func (p *plane) FullInfo() (err error) {
+	if _, ok := p.fullInfo[p.model]; !ok {
+		err = fmt.Errorf(model.NotFoundModel)
+		return
 	}
+	price := p.fullInfo[p.model]
+	fmt.Println(p.model, price)
+	return
 }
 
-//Constructor for Plane. Entry model of plane
-func NewPlane(modelPlane string) Plane {
+// Accept Increases the sale
+func (p *plane) Accept(v Visitor) (res float64, err error) {
+	res, err = v.VisitPlane(p)
+	if err != nil {
+		return
+	}
+	p.fullInfo[p.model] = res
+	return
+}
+
+// NewPlane Constructor for Plane. Entry model of plane
+func NewPlane(modelPlane string, fullInfo map[string]float64) Plane {
 	return &plane{
-		model: modelPlane,
+		model:    modelPlane,
+		fullInfo: fullInfo,
 	}
 }
