@@ -21,28 +21,27 @@ var (
 
 	fullInfoPlane = map[string]float64{
 		model.BoeingPlane: model.BoeingPrice,
-		model.AirBusPlane:    model.AirBusPrice,
+		model.AirBusPlane: model.AirBusPrice,
 		model.IlPlane:     model.IlPrice,
 	}
 )
 
 func main() {
-
 	newCar := car.NewCar(model.OpelCar, fullInfoCar)
-	newPlane := plane.NewPlane(model.AirBusPlane,fullInfoPlane)
+	newPlane := plane.NewPlane(model.AirBusPlane, fullInfoPlane)
 	newVisitor := frame.NewVisitor(model.AddPriceCar, model.SalePlane64)
 	newCar.FullInfo()
-	_,err := newCar.Accept(newVisitor)
-	if err != nil{
-		log.Println(err, "car")
+	_, err := newCar.Accept(newVisitor)
+	if err != nil {
+		log.Println(err, "Error car -")
 	}
 	newCar.FullInfo()
 	fmt.Println("______________")
 	newPlane.FullInfo()
 	_, err = newPlane.Accept(newVisitor)
-	if err != nil{
-		log.Println(err,"plane")
+	if err != nil {
+		log.Println(err, "Error plane -")
 	}
 	newPlane.FullInfo()
-	//newPlane.Accept(newVisitor)
+	newPlane.Accept(newVisitor)
 }
